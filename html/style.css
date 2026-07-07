@@ -1,0 +1,675 @@
+/* ===== RESET & BASE ===== */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    background: transparent;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* ===== APP CONTAINER ===== */
+#app {
+    display: none;
+    position: fixed;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    pointer-events: auto;
+}
+
+#app.visible {
+    display: flex;
+}
+
+#app.tuning-view {
+    justify-content: flex-start;
+    padding-left: 3vw;
+    box-sizing: border-box;
+}
+
+#app.tuning-view .panel {
+    width: 560px;
+    background: rgba(18, 18, 18, 0.54);
+}
+
+/* ===== PANEL ===== */
+/* Un seul conteneur scrollable dans toute l'UI : .tab-content (voir plus bas).
+   Le panel lui-même ne scrolle plus (évite l'ascenseur en double + le
+   débordement horizontal indésirable). */
+.panel {
+    width: 800px;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: rgba(25, 25, 25, 0.65);
+    padding: 25px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255,255,255,.15);
+    box-shadow: 0 10px 40px rgba(0,0,0,.4);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+
+/* ===== HEADER ===== */
+.header {
+    flex-shrink: 0;
+}
+
+.header h1 {
+    margin: 0 0 15px 0;
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== TABS ===== */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tab-btn {
+    flex: 1;
+    background: #2d2d2d;
+    border: none;
+    color: #aaa;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.tab-btn:hover {
+    background: #3a3a3a;
+    color: #fff;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* Unique zone de scroll de l'UI : verticale uniquement, jamais horizontale. */
+.tab-content {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+/* ===== SEARCH ===== */
+#search {
+    padding: 12px 15px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #2d2d2d;
+    color: white;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    flex-shrink: 0;
+}
+
+#search:focus {
+    border-color: #007bff;
+}
+
+#search::placeholder {
+    color: #888;
+}
+
+/* ===== VEHICLE LIST ===== */
+/* Le scroll est géré par .tab-content parent : pas de max-height/overflow ici,
+   pour éviter la double barre de défilement verticale. */
+#list,
+#garageList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.vehicle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background: #2d2d2d;
+    border-radius: 8px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    gap: 10px;
+}
+
+.vehicle:hover {
+    background: #3a3a3a;
+    border-color: #007bff;
+}
+
+.vehicle .model {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #fff;
+    min-width: 0;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vehicle .resource {
+    color: #888;
+    font-size: 12px;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.vehicle button {
+    background: linear-gradient(135deg, #28a745, #218838);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    font-size: 13px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.vehicle button:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.4);
+}
+
+/* ===== GARAGE ===== */
+.garage-vehicle {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(75px, 110px) auto;
+    align-items: center;
+}
+
+.garage-vehicle .model {
+    max-width: none;
+}
+
+.garage-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.btn-despawn-garage {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca) !important;
+}
+
+.btn-despawn-garage:hover {
+    background: linear-gradient(135deg, #0a58ca, #084298) !important;
+}
+
+.btn-delete-garage {
+    background: linear-gradient(135deg, #dc3545, #c82333) !important;
+}
+
+.btn-delete-garage:hover {
+    background: linear-gradient(135deg, #c82333, #a71d2a) !important;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 16px;
+    font-style: italic;
+}
+
+/* ===== TUNE SECTIONS ===== */
+.tune-section {
+    background: #2d2d2d;
+    padding: 18px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+}
+
+.tune-section h3 {
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    color: #007bff;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+.tune-section label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #ddd;
+}
+
+/* Slider désactivé car le mod n'existe pas sur ce véhicule */
+.tune-section label.unavailable {
+    opacity: 0.4;
+}
+
+.tune-section label.unavailable .tune-slider {
+    cursor: not-allowed;
+}
+
+/* ===== SLIDERS ===== */
+.tune-slider {
+    flex: 0.7;
+    cursor: pointer;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #444;
+    outline: none;
+    transition: background 0.2s;
+}
+
+.tune-slider:hover {
+    background: #555;
+}
+
+.tune-slider:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.tune-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.tune-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.5);
+}
+
+.mod-value {
+    margin: 0 10px;
+    min-width: 30px;
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+    font-family: monospace;
+    background: #333;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* ===== CHECKBOXES ===== */
+.tune-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #007bff;
+}
+
+/* ===== SELECT ===== */
+select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #1e1e1e;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+select:hover {
+    border-color: #555;
+}
+
+select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+select option {
+    background: #2d2d2d;
+    color: white;
+    padding: 5px 10px;
+}
+
+/* ===== COLOR PICKERS ===== */
+.style-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.style-row label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.style-row input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #1e1e1e;
+    color: white;
+    text-transform: uppercase;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.style-row input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.style-row input[type="color"] {
+    width: 100%;
+    height: 35px;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 6px;
+    padding: 0;
+}
+
+.style-row input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.style-row input[type="color"]::-webkit-color-swatch {
+    border: 2px solid #444;
+    border-radius: 6px;
+}
+
+/* ===== EXTRAS GRID ===== */
+.extras-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.extra-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.extra-item label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #aaa;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.extra-item.unavailable {
+    opacity: 0.4;
+}
+
+.extra-item.unavailable label,
+.extra-item.unavailable input {
+    cursor: not-allowed;
+}
+
+/* ===== BUTTONS ===== */
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-shrink: 0;
+}
+
+.btn-success {
+    flex: 1;
+    background: linear-gradient(135deg, #28a745, #218838);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+}
+
+.btn-warning {
+    flex: 1;
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    border: none;
+    border-radius: 8px;
+    color: #333;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #e0a800, #d39e00);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.4);
+}
+
+/* ===== NOTIFICATIONS ===== */
+.notification {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 10000;
+    animation: slideIn 0.3s ease-out;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.notification.success {
+    background: linear-gradient(135deg, #28a745, #218838);
+}
+
+.notification.error {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.notification.info {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+}
+
+.game-confirm {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.25);
+    pointer-events: auto;
+}
+
+.game-confirm-box {
+    width: min(360px, 90vw);
+    background: rgba(25, 25, 25, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+}
+
+.game-confirm-box p {
+    margin: 0 0 14px 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.game-confirm-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.game-confirm-actions button {
+    flex: 1;
+    border: 0;
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.confirm-yes {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.confirm-no {
+    background: linear-gradient(135deg, #555, #444);
+}
+
+.notification.hide {
+    animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 0; /* on masque totalement une éventuelle barre horizontale résiduelle */
+}
+
+::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 800px) {
+    #app.tuning-view {
+        justify-content: center;
+        padding-left: 0;
+    }
+
+    .panel {
+        width: 95vw;
+        max-height: 95vh;
+    }
+
+    #app.tuning-view .panel {
+        width: 95vw;
+    }
+
+    .tabs {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        width: 100%;
+    }
+
+    .extras-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .garage-vehicle {
+        grid-template-columns: 1fr;
+    }
+
+    .garage-actions {
+        justify-content: stretch;
+    }
+
+    .garage-actions button {
+        flex: 1;
+    }
+}

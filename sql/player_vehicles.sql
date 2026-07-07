@@ -1,0 +1,21 @@
+-- Cette table existait déjà chez toi. Aucune migration n'est nécessaire :
+-- la position (coords) et le nom du modèle (modelName) sont maintenant simplement
+-- inclus dans le JSON déjà stocké dans la colonne `mods`, donc l'ancien schéma
+-- fonctionne tel quel.
+--
+-- Vérifie juste que la colonne `mods` est bien assez grande pour stocker un JSON
+-- complet (TEXT ou JSON, pas VARCHAR(255) par exemple). Si besoin :
+
+-- CREATE TABLE IF NOT EXISTS `player_vehicles` (
+--     `id` INT AUTO_INCREMENT PRIMARY KEY,
+--     `citizenid` VARCHAR(50) NOT NULL,
+--     `license` VARCHAR(50) DEFAULT NULL,
+--     `plate` VARCHAR(15) NOT NULL,
+--     `vehicle` LONGTEXT,
+--     `mods` LONGTEXT,
+--     INDEX (`citizenid`),
+--     UNIQUE KEY `unique_plate` (`plate`)
+-- );
+
+-- Si ta colonne `mods` est actuellement en VARCHAR trop petit, agrandis-la :
+-- ALTER TABLE `player_vehicles` MODIFY `mods` LONGTEXT;

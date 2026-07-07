@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle Browser & Tuner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div class="panel">
+            <div class="header">
+                <h1>🛠️ Gestionnaire de Véhicules</h1>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="spawn-tab">📋 Catalogue</button>
+                    <button class="tab-btn" data-tab="tune-tab">🎨 Personnalisation</button>
+                    <button class="tab-btn" data-tab="garage-tab" id="garageTabBtn" style="display:none;">🏠 Garage</button>
+                </div>
+            </div>
+
+            <div id="spawn-tab" class="tab-content active">
+                <input type="text" id="search" placeholder="🔍 Rechercher un véhicule...">
+                <div id="list"></div>
+            </div>
+
+            <div id="tune-tab" class="tab-content">
+                <!-- Performances -->
+                <div class="tune-section">
+                    <h3>⚙️ Performances</h3>
+                    <label>Moteur <span class="mod-value" id="modEngineValue">-1</span>
+                        <input type="range" id="modEngine" min="-1" max="7" value="-1" class="tune-slider">
+                    </label>
+                    <label>Freins <span class="mod-value" id="modBrakesValue">-1</span>
+                        <input type="range" id="modBrakes" min="-1" max="6" value="-1" class="tune-slider">
+                    </label>
+                    <label>Transmission <span class="mod-value" id="modTransmissionValue">-1</span>
+                        <input type="range" id="modTransmission" min="-1" max="6" value="-1" class="tune-slider">
+                    </label>
+                    <label>Suspension <span class="mod-value" id="modSuspensionValue">-1</span>
+                        <input type="range" id="modSuspension" min="-1" max="5" value="-1" class="tune-slider">
+                    </label>
+                    <label>Armure <span class="mod-value" id="modArmorValue">-1</span>
+                        <input type="range" id="modArmor" min="-1" max="6" value="-1" class="tune-slider">
+                    </label>
+                    <label>Turbo <input type="checkbox" id="modTurbo" class="tune-checkbox"></label>
+                </div>
+
+                <!-- Carrosserie -->
+                <div class="tune-section">
+                    <h3>🎭 Carrosserie</h3>
+                    <label>Aileron <span class="mod-value" id="modSpoilerValue">-1</span>
+                        <input type="range" id="modSpoiler" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Pare-chocs Avant <span class="mod-value" id="modFrontBumperValue">-1</span>
+                        <input type="range" id="modFrontBumper" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Pare-chocs Arrière <span class="mod-value" id="modRearBumperValue">-1</span>
+                        <input type="range" id="modRearBumper" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Bas de caisse <span class="mod-value" id="modSkirtsValue">-1</span>
+                        <input type="range" id="modSkirts" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Echappement <span class="mod-value" id="modExhaustValue">-1</span>
+                        <input type="range" id="modExhaust" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Chassis / arceau <span class="mod-value" id="modFrameValue">-1</span>
+                        <input type="range" id="modFrame" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Calandre <span class="mod-value" id="modGrilleValue">-1</span>
+                        <input type="range" id="modGrille" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Capot <span class="mod-value" id="modHoodValue">-1</span>
+                        <input type="range" id="modHood" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Aile gauche <span class="mod-value" id="modLeftFenderValue">-1</span>
+                        <input type="range" id="modLeftFender" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Aile droite <span class="mod-value" id="modRightFenderValue">-1</span>
+                        <input type="range" id="modRightFender" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Coffre <span class="mod-value" id="modTrunkValue">-1</span>
+                        <input type="range" id="modTrunk" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Toit <span class="mod-value" id="modRoofValue">-1</span>
+                        <input type="range" id="modRoof" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                </div>
+
+                <!-- Intérieur -->
+                <div class="tune-section">
+                    <h3>🎭 Intérieur</h3>
+                    <label>Klaxon <span class="mod-value" id="modHornValue">-1</span>
+                        <input type="range" id="modHorn" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Garniture <span class="mod-value" id="modTrimValue">-1</span>
+                        <input type="range" id="modTrim" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Ornements <span class="mod-value" id="modOrnamentsValue">-1</span>
+                        <input type="range" id="modOrnaments" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Volant <span class="mod-value" id="modSteeringWheelValue">-1</span>
+                        <input type="range" id="modSteeringWheel" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Tableau de bord <span class="mod-value" id="modDashboardValue">-1</span>
+                        <input type="range" id="modDashboard" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Compteurs <span class="mod-value" id="modDialValue">-1</span>
+                        <input type="range" id="modDial" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Haut-parleurs portes <span class="mod-value" id="modDoorSpeakersValue">-1</span>
+                        <input type="range" id="modDoorSpeakers" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Sièges <span class="mod-value" id="modSeatsValue">-1</span>
+                        <input type="range" id="modSeats" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Levier <span class="mod-value" id="modShifterValue">-1</span>
+                        <input type="range" id="modShifter" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Plaques interieures <span class="mod-value" id="modPlaquesValue">-1</span>
+                        <input type="range" id="modPlaques" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Haut-parleurs <span class="mod-value" id="modSpeakersValue">-1</span>
+                        <input type="range" id="modSpeakers" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                </div>
+
+                <!-- Roues & Pneus -->
+                <div class="tune-section">
+                    <h3>🚗 Roues & Pneus</h3>
+                    <label>Type de roues <span class="mod-value" id="modWheelTypeValue">-1</span>
+                        <input type="range" id="modWheelType" min="-1" max="11" value="-1" class="tune-slider">
+                    </label>
+                    <label>Jantes Avant <span class="mod-value" id="modFrontWheelsValue">-1</span>
+                        <input type="range" id="modFrontWheels" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                    <label>Jantes Arrière <span class="mod-value" id="modRearWheelsValue">-1</span>
+                        <input type="range" id="modRearWheels" min="-1" max="50" value="-1" class="tune-slider">
+                    </label>
+                </div>
+
+                <!-- Couleurs -->
+                <div class="tune-section">
+                    <h3>🎨 Couleurs</h3>
+                    <div class="style-row">
+                        <label>Primaire <input type="color" id="primaryColor" value="#ffffff"></label>
+                        <label>Secondaire <input type="color" id="secondaryColor" value="#000000"></label>
+                    </div>
+                    <div class="style-row">
+                        <label>Jantes <input type="color" id="wheelColor" value="#ffffff"></label>
+                        <label>Néons <input type="color" id="neonColor" value="#00ffff"></label>
+                    </div>
+                </div>
+
+                <!-- Éclairage -->
+                <div class="tune-section">
+                    <h3>💡 Éclairage</h3>
+                    <label>Néons
+                        <select id="neonLights">
+                            <option value="none">Aucun</option>
+                            <option value="left">Gauche</option>
+                            <option value="right">Droite</option>
+                            <option value="front">Avant</option>
+                            <option value="back">Arrière</option>
+                            <option value="all">Tous</option>
+                        </select>
+                    </label>
+                    <label>Xénon <input type="checkbox" id="modXenon" class="tune-checkbox"></label>
+                    <label>Fumée Pneus <input type="color" id="tireSmokeColor" value="#ffffff"></label>
+                </div>
+
+                <!-- Plaque & Extras -->
+                <div class="tune-section">
+                    <h3>📛 Plaque & Extras</h3>
+                    <label>Plaque <input type="text" id="plateText" maxlength="8" placeholder="SULLI"></label>
+                    <label>Teinte Vitres <span class="mod-value" id="modWindowTintValue">0</span>
+                        <input type="range" id="modWindowTint" min="0" max="6" value="0" class="tune-slider">
+                    </label>
+                    <label>Saleté <span class="mod-value" id="modDirtLevelValue">0</span>
+                        <input type="range" id="modDirtLevel" min="0" max="15" value="0" class="tune-slider">
+                    </label>
+                </div>
+
+                <!-- Extras -->
+                <div class="tune-section">
+                    <h3>⚡ Extras (1-20)</h3>
+                    <div id="extrasContainer" class="extras-grid"></div>
+                </div>
+
+                <!-- Boutons -->
+                <div class="button-group">
+                    <button id="saveVehicleBtn" class="btn-success">💾 Sauvegarder dans la BDD</button>
+                    <button id="resetTuningBtn" class="btn-warning">🔄 Réinitialiser</button>
+                </div>
+            </div>
+
+            <div id="garage-tab" class="tab-content">
+                <div id="garageList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
